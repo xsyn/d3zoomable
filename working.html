@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+  <head>
+     <!-- <script src="http://d3js.org/d3.v3.min.js"></script> -->
+      <script src="/d3/d3.v2.min.js"></script>
+    <style type="text/css">
+    </style>
+  </head>
+  <body>
+  <script>
+
+  // Data for indiviudal 65% thing
+  var fields = [
+    {name: "very late", value:[5/6,1], innerRadius:0, outerRadius:1*max_radius, color:"#6a0000"},
+    {name: "very late", value:[1,1], innerRadius:1*max_radius, outerRadius:1*max_radius, color:"#440000"},
+    {name: "up to 6 months late", value:[4/6,5/6], innerRadius:0, outerRadius:0.9*max_radius, color:"#ad0000"},
+    {name: "up to 6 months late", value:[1,1], innerRadius:0.9*max_radius, outerRadius:0.9*max_radius, color:"#980101"},
+    {name: "up to 1 month late", value:[3/6,4/6], innerRadius:0, outerRadius:0.8*max_radius, color:"#db4100"},
+    {name: "up to 1 month late", value:[4/6,1], innerRadius:0.8*max_radius, outerRadius:0.8*max_radius, color:"#d40000"},
+    {name: "up to 1 week late", value:[2/6,3/6], innerRadius:0, outerRadius:0.7*max_radius, color:"#e37f04"},
+    {name: "up to 1 week late", value:[3/6,1], innerRadius:0.7*max_radius, outerRadius:0.7*max_radius, color:"#fd3301"},
+    {name: "up to 1 day late", value:[1/6,2/6], innerRadius:0, outerRadius:0.6*max_radius, color:"#e4b500"},
+    {name: "up to 1 day late", value:[2/6,1], innerRadius:0.6*max_radius, outerRadius:0.6*max_radius, color:"#f44800"},
+    {name: "in time", value:[0,1/6], innerRadius:0, outerRadius:0.5*max_radius, color:"#54a913"}
+  ];
+
+  //
+
+  var width = 960,
+      height = 500,
+      radius = Math.min(width, height) / 2;
+
+  var color = d3.scale.ordinal()
+      .range(["#FF0000", "#FFFF00", "#D3D3D3"]);
+
+  var arc = d3.svg.arc()
+      .outerRadius(radius - 10)
+      .innerRadius(radius - 70);
+
+  var pie = d3.layout.pie()
+      .sort(null)
+      .value(function(d) { return d.population; });
+
+  var svg = d3.select("body").append("svg")
+      .attr("width", width)
+      .attr("height", height)
+    .append("g")
+      .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+//    .append("g")
+//         .attr("transform", "translate(0," + (h / 2) + ")");
+
+  var data = [
+  {"age":"overdue", "population":"4"},
+  {"age":"due today", "population":"11"},
+  {"age":"future", "population":"23"},
+  ]
+
+  //d3.csv("data.csv", function(error, data) {
+
+    data.forEach(function(d) {
+      d.population = +d.population;
+    });
+
+    var g = svg.selectAll(".arc")
+        .data(pie(data))
+      .enter().append("g")
+        .attr("class", "arc");
+
+    g.append("path")
+        .attr("d", arc)
+        .style("fill", function(d) { return color(d.data.age); });
+
+    g.append("text")
+        .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
+        .attr("dy", ".35em")
+        .style("text-anchor", "middle")
+        .text(function(d) { return d.data.population; });
+
+  //});
+
+// Below is Individual graph of 65% thing
+
+
+var max_radius = 100,
+w = 2*max_radius,
+h = 2*max_radius,
+font_size = max_radius/3;
+
+var score = [
+{x: max_radius, y: max_radius, percentage: 0 }
+]
+
+var arc = d3.svg.arc()
+.innerRadius(function(d) { return d.innerRadius; })
+.outerRadius(function(d) { return d.outerRadius; })
+.startAngle(function(d) { return (d.value[0] * 2 * Math.PI); })
+.endAngle(function(d) { return (d.value[1] * 2 * Math.PI); });
+//.append(text({x:max_radius, y:max_radius, text:"%"}));
+
+
+var svg = d3.select("body").append("svg")
+.attr("width", w)
+.attr("height", h)
+.attr("fill-rule", "evenodd")
+.attr("fill-opacity", 1)
+.attr("stroke-width", "1px")
+.append("g")
+  .attr("transform", "translate(0," + (h / 2) + ")");
+
+    setInterval(function() {
+    var dataset = [80, 10, 10, 20, 10, 10].reverse(),
+      dataset_size = 6,
+      sum = dataset[0],
+      dataseries = [dataset[0]],
+      angle_offset = 0,
+      padding = 0,
+      i = 0;
+
+    dataset = [20,2,2,1,0,1].reverse();
+    dataseries = [dataset[0]];
+
+    for(i=1; i<dataset_size; i++){ sum += dataset[i]; dataseries[i] = dataseries[i-1]+dataset[i]; }
+    sum = d3.sum(dataset);
+
+    for(i=0; i<dataset_size; i++){ if(0==dataset[i]) {padding +=1;} else {i=dataset_size;}; }
+
+    angle_offset = dataset[dataset_size-1]/sum/2;
+
+    fields[0].previous = fields[0].value; fields[0].value = [0/sum+angle_offset, dataseries[0]/sum+angle_offset];
+    if((padding-1)>=0) { fields[0].outerRadius = 0; } else { fields[0].outerRadius = (1-(0-padding)/(2*dataset_size))*max_radius; };
+    for(i=1; i<dataset_size; i++){
+    fields[2*i-1].previous = fields[2*i-1].value;
+    fields[2*i-1].value = [dataseries[i-1]/sum+angle_offset, 1+angle_offset];
+    if((padding-1)>=(i-1)) { fields[2*i-1].outerRadius = 0*max_radius; } else { fields[2*i-1].outerRadius = (1-((i-1)-padding)/(2*dataset_size))*max_radius };
+    fields[2*i-1].innerRadius = fields[2*i-1].outerRadius;
+
+    fields[2*i].previous = fields[2*i].value;
+    fields[2*i].value = [dataseries[(i-1)]/sum+angle_offset, dataseries[i]/sum+angle_offset];
+    if((padding-1)>=(i)) { fields[2*i].outerRadius = 0*max_radius; } else { fields[2*i].outerRadius = (1-((i)-padding)/(2*dataset_size))*max_radius; };
+    }
+
+    i = 2*dataset_size-2;
+    var arc_angle = (fields[i].value[1] - fields[i].value[0]) * 2 * Math.PI,
+      arc_radius = (fields[i].outerRadius-fields[i].innerRadius)/max_radius,
+      green_area = 0,
+      total_area = 0;
+
+    if (0 < arc_angle) { green_area = arc_radius*arc_radius*arc_angle*180/Math.PI; } else { green_area = 0; }
+
+    for(i=2*dataset_size-2; i>=0; i-=2){
+    arc_angle = (fields[i].value[1] - fields[i].value[0]) * 2 * Math.PI;
+    arc_radius = (fields[i].outerRadius-fields[i].innerRadius)/max_radius;
+    total_area += arc_radius*arc_radius*arc_angle*180/Math.PI;
+    }
+    score[0].percentage = green_area / total_area * 100;
+
+
+    var path = svg.selectAll("path")
+      .data(fields.filter(function(d) { return (d.value); }), function(d) { return d.name; });
+
+    path.enter().append("svg:path")
+      .attr("transform", function(d) { return "translate(" + max_radius + ",0)"; })
+      .attr("fill", function(d) { return (d.color); })
+      .attr("stroke", function(d) { return (d.color); })
+    // .attr("title", function(d) { return (d.name + " = " + Math.round((d.value[1]-d.value[0])*sum)); })
+          .attr("title", function(d) { return (d.name + " = " + Math.round((d.value[1]-d.value[0])*sum)); })
+    .transition()
+      .ease("elastic")
+      .duration(750)
+      .attrTween("d", arcTween);
+
+    path.transition()
+      .ease("elastic")
+      .duration(750)
+      .attrTween("d", arcTween);
+
+    path.exit().transition()
+      .ease("bounce")
+      .duration(750)
+      .attrTween("d", arcTween)
+      .remove();
+
+    svg.selectAll("text")
+      .data(score)
+      .enter()
+      .append("text")
+      .attr("x", max_radius)
+      .attr("y", max_radius/2-font_size)
+      .attr("text-anchor", "middle")
+      .attr("font-size", font_size)
+      .attr("font-weight", "bold")
+      .attr("text-shadow", "0px 0px 20px white")
+      .attr("fill", "#00FF00")
+      .text(function(d) { return Math.round(d.percentage)+"%"; });
+
+
+
+    }, 1000);
+//
+function arcTween(b) {
+  var i = d3.interpolate({value: b.previous}, b);
+  return function(t) {
+    return arc(i(t));
+  };
+}
+
+    </script>
+
+  </body>
+</html>
