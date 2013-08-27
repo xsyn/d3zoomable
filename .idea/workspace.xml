@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ac14f3b5-6874-40d3-b5d3-b5c3faa93694" name="Default" comment="" />
+    <list default="true" id="ac14f3b5-6874-40d3-b5d3-b5c3faa93694" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/new.html" afterPath="$PROJECT_DIR$/new.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pack lwh.html" afterPath="$PROJECT_DIR$/pack lwh.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+    </list>
     <ignored path="cosapien.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/d3-arc copy v03 - working.html" changelist="ac14f3b5-6874-40d3-b5d3-b5c3faa93694" time="1372367067534" ignored="false" />
@@ -9,10 +14,11 @@
     <file path="/meta.html" changelist="ac14f3b5-6874-40d3-b5d3-b5c3faa93694" time="1372365681720" ignored="false" />
     <file path="/circles.html" changelist="ac14f3b5-6874-40d3-b5d3-b5c3faa93694" time="1373176817766" ignored="false" />
     <file path="/working.html" changelist="ac14f3b5-6874-40d3-b5d3-b5c3faa93694" time="1374411878915" ignored="false" />
-    <file path="/new.html" changelist="ac14f3b5-6874-40d3-b5d3-b5c3faa93694" time="1375782961761" ignored="false" />
-    <file path="/Dummy.txt" changelist="ac14f3b5-6874-40d3-b5d3-b5c3faa93694" time="1375780959598" ignored="false" />
+    <file path="/new.html" changelist="ac14f3b5-6874-40d3-b5d3-b5c3faa93694" time="1377609431293" ignored="false" />
+    <file path="/Dummy.txt" changelist="ac14f3b5-6874-40d3-b5d3-b5c3faa93694" time="1377583620220" ignored="false" />
     <file path="$PROJECT_DIR$/../sumphonos/resources/public/force.html" changelist="ac14f3b5-6874-40d3-b5d3-b5c3faa93694" time="1375781675290" ignored="false" />
     <file path="/force.html" changelist="ac14f3b5-6874-40d3-b5d3-b5c3faa93694" time="1375781649018" ignored="false" />
+    <file path="/pack lwh.html" changelist="ac14f3b5-6874-40d3-b5d3-b5c3faa93694" time="1377586761338" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,6 +33,7 @@
     <disable_hints />
   </component>
   <component name="DebuggerManager">
+    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_any default_suspend_policy="SuspendAll" default_condition_enabled="true">
       <breakpoint>
         <option name="NOTIFY_CAUGHT" value="true" />
@@ -63,7 +70,6 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
-    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_rules />
     <ui_properties />
   </component>
@@ -76,7 +82,7 @@
       <file leaf-file-name="new.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/new.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="17" selection-start="476" selection-end="476" vertical-scroll-proportion="1.0192113">
+            <state line="151" column="0" selection-start="3633" selection-end="3838" vertical-scroll-proportion="0.019790454">
               <folding />
             </state>
           </provider>
@@ -85,7 +91,7 @@
       <file leaf-file-name="donut.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/donut.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="58" column="0" selection-start="1162" selection-end="1388" vertical-scroll-proportion="-31.125">
+            <state line="52" column="28" selection-start="1053" selection-end="1053" vertical-scroll-proportion="-32.5">
               <folding />
             </state>
           </provider>
@@ -94,16 +100,7 @@
       <file leaf-file-name="meta.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/meta.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="47" column="51" selection-start="2094" selection-end="2094" vertical-scroll-proportion="-25.625">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="pack lwh.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pack lwh.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="4" column="0" selection-start="48" selection-end="245" vertical-scroll-proportion="21.375">
+            <state line="47" column="51" selection-start="2094" selection-end="2094" vertical-scroll-proportion="-0.625">
               <folding />
             </state>
           </provider>
@@ -112,7 +109,7 @@
       <file leaf-file-name="working.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/working.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="9" selection-start="196" selection-end="196" vertical-scroll-proportion="-4.375">
+            <state line="7" column="9" selection-start="196" selection-end="196" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -125,6 +122,14 @@
       <setting name="OPEN_NEW_TAB" value="false" />
     </FindUsagesManager>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitLogSettings">
+    <option name="myDateState">
+      <MyDateState />
+    </option>
+  </component>
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
@@ -136,6 +141,7 @@
         <option value="$PROJECT_DIR$/circles.html" />
         <option value="$PROJECT_DIR$/donut.html" />
         <option value="$PROJECT_DIR$/working.html" />
+        <option value="$PROJECT_DIR$/pack lwh.html" />
         <option value="$PROJECT_DIR$/new.html" />
       </list>
     </option>
@@ -143,9 +149,9 @@
   <component name="ProjectFrameBounds">
     <option name="y" value="22" />
     <option name="width" value="1920" />
-    <option name="height" value="1174" />
+    <option name="height" value="1054" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
     <OptionsSetting value="true" id="Remove" />
     <OptionsSetting value="true" id="Checkout" />
@@ -174,9 +180,6 @@
       <pane id="Scope">
         <subPane subId="Project Files" />
       </pane>
-      <pane id="PackagesPane">
-        <subPane />
-      </pane>
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -187,6 +190,9 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane">
+        <subPane />
+      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -194,7 +200,7 @@
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="options.splitter.main.proportions" value="0.3" />
-    <property name="options.lastSelected" value="org.jetbrains.plugins.clojure.settings.ClojureConfigurable" />
+    <property name="options.lastSelected" value="project.propVCSSupport.Mappings" />
     <property name="MemberChooser.sorted" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/pack-hierarchy_files" />
     <property name="DefaultHtmlFileTemplate" value="Html5" />
@@ -203,9 +209,10 @@
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
+    <property name="FullScreen" value="false" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="RunManager">
     <configuration default="true" type="Remote" factoryName="Remote">
@@ -244,6 +251,13 @@
       <envs />
       <method />
     </configuration>
+    <configuration default="true" type="JavascriptDebugSession" factoryName="Local" singleton="true">
+      <JSDebuggerConfigurationSettings>
+        <option name="engineId" value="embedded" />
+        <option name="fileUrl" />
+      </JSDebuggerConfigurationSettings>
+      <method />
+    </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit">
       <extension name="coverage" enabled="false" merge="false" runner="idea" />
       <module name="" />
@@ -265,13 +279,6 @@
       <patterns />
       <method />
     </configuration>
-    <configuration default="true" type="JavascriptDebugSession" factoryName="Local" singleton="true">
-      <JSDebuggerConfigurationSettings>
-        <option name="engineId" value="embedded" />
-        <option name="fileUrl" />
-      </JSDebuggerConfigurationSettings>
-      <method />
-    </configuration>
     <list size="0" />
     <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
       <Host>localhost</Host>
@@ -288,8 +295,8 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1920" height="1174" extended-state="6" />
-    <editor active="false" />
+    <frame x="0" y="22" width="1920" height="1054" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -308,7 +315,7 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24919957" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24919957" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Leiningen" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
@@ -436,49 +443,49 @@
         <state line="34" column="19" selection-start="787" selection-end="794" vertical-scroll-proportion="0.016968327" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pack-hierarchy-zoomable.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="59" column="0" selection-start="60111" selection-end="60111" vertical-scroll-proportion="0.36165327">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/layoutPack-samesize-siblings--sequence.png">
       <provider selected="true" editor-type-id="images">
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/meta.html">
+    <entry file="file://$PROJECT_DIR$/working.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="47" column="51" selection-start="2094" selection-end="2094" vertical-scroll-proportion="-25.625">
+        <state line="7" column="9" selection-start="196" selection-end="196" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/donut.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="58" column="0" selection-start="1162" selection-end="1388" vertical-scroll-proportion="-31.125">
+        <state line="52" column="28" selection-start="1053" selection-end="1053" vertical-scroll-proportion="-32.5">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/pack lwh.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="0" selection-start="48" selection-end="245" vertical-scroll-proportion="21.375">
+        <state line="87" column="49" selection-start="1939" selection-end="1939" vertical-scroll-proportion="1.2047511">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/working.html">
+    <entry file="file://$PROJECT_DIR$/meta.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="9" selection-start="196" selection-end="196" vertical-scroll-proportion="-4.375">
+        <state line="47" column="51" selection-start="2094" selection-end="2094" vertical-scroll-proportion="-0.625">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pack-hierarchy-zoomable.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="0" selection-start="308" selection-end="643" vertical-scroll-proportion="0.120551094">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/new.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="17" selection-start="476" selection-end="476" vertical-scroll-proportion="1.0192113">
+        <state line="151" column="0" selection-start="3633" selection-end="3838" vertical-scroll-proportion="0.019790454">
           <folding />
         </state>
       </provider>

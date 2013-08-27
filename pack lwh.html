@@ -85,7 +85,7 @@ var root = {
       .text(function(d) { return d.name + (d.children ? "" : ": " + format(d.size)); });
 
   node.append("circle")
-      .attr("r", function(d) { return d.r; });
+      .attr("r", function(d) { console.log(d.r); return d.r; });
 
   node.filter(function(d) { return !d.children; }).append("text")
       .attr("dy", ".3em")
