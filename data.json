@@ -20,16 +20,16 @@
         {
           "name": "Shannon's line reports",
             "data" : [
-                {"age":"overdue", "population":"10"},
+                {"age":"overdue", "population":"8"},
                 {"age":"due today", "population":"2"},
-                {"age":"future", "population":"40"}
+                {"age":"future", "population":"32"}
             ],
           "children": [
             {"name": "Riana", "size": 10,
              "data": [
-                {"age":"overdue", "population":"3"},
-                {"age":"due today", "population":"10"},
-                {"age":"future", "population":"25"}]
+                {"age":"overdue", "population":"334"},
+                {"age":"due today", "population":"1"},
+                {"age":"future", "population":"2"}]
            },
            {"name": "Nicola", "size": 3,
             "data": [
