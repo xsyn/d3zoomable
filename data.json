@@ -1,0 +1,93 @@
+{
+   "name": "LWH",
+   "children": [
+    {
+     "name": "Jan-Jan's line reports",
+        "data" : [
+          {"age":"overdue", "population":"10"},
+          {"age":"due today", "population":"2"},
+          {"age":"future", "population":"40"}
+     ],
+     "children": [
+      {
+       "name": "Shannon & line reports",
+       "data" : [
+           {"age":"overdue", "population":"10"},
+           {"age":"due today", "population":"2"},
+           {"age":"future", "population":"40"}
+       ],
+       "children": [
+        {
+          "name": "Shannon's line reports",
+            "data" : [
+                {"age":"overdue", "population":"10"},
+                {"age":"due today", "population":"2"},
+                {"age":"future", "population":"40"}
+            ],
+          "children": [
+            {"name": "Riana", "size": 10,
+             "data": [
+                {"age":"overdue", "population":"3"},
+                {"age":"due today", "population":"10"},
+                {"age":"future", "population":"25"}]
+           },
+           {"name": "Nicola", "size": 3,
+            "data": [
+                {"age":"overdue", "population":"3"},
+                {"age":"due today", "population":"10"},
+                {"age":"future", "population":"25"}]
+            },
+            {"name": "Grace", "size": 5,
+             "data": [
+                  {"age":"overdue", "population":"3"},
+                  {"age":"due today", "population":"10"},
+                  {"age":"future", "population":"25"}]
+            },
+            {
+             "name": "Dawie & line reports",
+             "children": [
+              {
+               "name": "Dawie's line reports",
+               "children": [
+                {"name": "Dave", "size": 10,
+                    "data": [
+                                            {"age":"overdue", "population":"3"},
+                                            {"age":"due today", "population":"10"},
+                                            {"age":"future", "population":"25"}]
+                                    },
+                {"name": "Ntsiki", "size": 11,
+                    "data": [
+                                  {"age":"overdue", "population":"3"},
+                                  {"age":"due today", "population":"10"},
+                                  {"age":"future", "population":"25"}
+                            ]
+                },
+                  {"name": "Dawie", "size": 15,
+                      "data": [
+                          {"age":"overdue", "population":"3"},
+                          {"age":"due today", "population":"10"},
+                          {"age":"future", "population":"25"}]
+                  }
+             ]}
+          ]
+        },
+        {"name": "Shannon", "size": 54,
+         "data" : [
+              {"age":"overdue", "population":"30"},
+              {"age":"due today", "population":"1"},
+              {"age":"future", "population":"100"}
+         ]}
+        ]
+      }
+     ]
+    },
+    {"name": "Jan-Jan",
+     "size": 95,
+     "data": [
+          {"age":"overdue", "population":"3"},
+          {"age":"due today", "population":"10"},
+          {"age":"future", "population":"25"}
+     ]}
+   ]}
+   ]
+}

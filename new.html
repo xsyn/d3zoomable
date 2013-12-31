@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-      <!--<script src="http://d3js.org/d3.v3.min.js"></script>-->
-      <script src="http://d3js.org/d3.v3.min.js"></script>
-
+    <script src="http://d3js.org/d3.v3.min.js"></script>
     <style type="text/css">
         circle {
           fill: rgb(31, 119, 180);
@@ -60,14 +58,35 @@
   var width = 1280,
       height = 800,
       radius = Math.min(width, height) / 2,
-      x = d3.scale.linear().range([0, r]),
-      y = d3.scale.linear().range([0, r]),
+      x = d3.scale.linear().range([0, radius]),
+      y = d3.scale.linear().range([0, radius]),
       node,
       root;
 
-      var  w = width,
-        r = radius,
-        h = height;
+  // Set colors for donut arcs
+  var color = d3.scale.ordinal()
+      .range(["#FF0000", "#FFFF00", "#D3D3D3"]);
+
+  // Set size of donut arcs
+  var donut_arc = d3.svg.arc()
+      .outerRadius(radius + 2)
+      .innerRadius(radius);
+
+  var w = width,
+      r = radius,
+      h = height;
+
+  // Make maximum radius half of the radius of the donut
+  var max_radius = radius/2,
+      font_size = max_radius/3;
+
+  // Set the format of text to integer
+  var format = d3.format(",d");
+
+  // Set the pack size to be the same as the diameter, .value auto-generates area of new values
+  var pack = d3.layout.pack()
+      .size([max_radius*2, max_radius*2])
+      .value(function(d) { return d.size; });
 
   var svg = d3.select("body")
     .append("svg")
@@ -77,68 +96,61 @@
       .attr("fill-opacity", 1)
       .attr("stroke-width", "1px")
       .append("g")
-            .attr("transform", "translate(" + (w - r) / 2 + "," + (h - r) / 2 + ")");
+      .attr("transform", "translate(" + (width - radius) / 2 + "," + (height - radius) / 2 + ")");
 
-    // Make maximum radius half of the radius of the donut
-  var max_radius = radius/2,
-      font_size = max_radius/3;
 
-     // Mock Data
-      var root = {
-       "name": "LWH",
-       "children": [
-        {
-         "name": "Jan-Jan's line reports",
-            "data" : [
-              {"age":"overdue", "population":"10"},
-              {"age":"due today", "population":"2"},
-              {"age":"future", "population":"40"}
-         ],
-         "children": [
-          {
-           "name": "Shannon & line reports",
-           "children": [
-            {
-              "name": "Shannon's line reports",
-              "children": [
-                {"name": "Riana", "size": 10},
-                {"name": "Nicola", "size": 3},
-                {"name": "Grace", "size": 5},
-                {
-                 "name": "Dawie & line reports",
-                 "children": [
-                  {
-                   "name": "Dawie's line reports",
-                   "children": [
-                    {"name": "Dave", "size": 10},
-                    {"name": "Ntsiki", "size": 11}
-                   ]
-                  },
-                  {"name": "Dawie", "size": 15},
-                 ]
-                },
-              ]
-            },
-            {"name": "Shannon", "size": 54,
-             "data" : [
-                  {"age":"overdue", "population":"0"},
-                  {"age":"due today", "population":"1"},
-                  {"age":"future", "population":"100"}
-             ]},
-            ]
-          },
-         ]
-        },
-        {"name": "Jan-Jan",
-         "size": 95,
-         "data": [
-              {"age":"overdue", "population":"3"},
-              {"age":"due today", "population":"10"},
-              {"age":"future", "population":"25"}
-         ]},
-       ]
-      };
 
+     /*----
+
+  Setup of Donut Graph
+
+   ----*/
+
+   // Setup data for donut
+
+  function donut(x, y, radius, n) {
+
+      if(n) {data = n.data;}
+
+      if(data) {
+                            // Create Pie Graph
+          var pie = d3.layout.pie()
+              .value(function(d) { return d.population});
+
+          // Create data - It fails here (Object has no method map)
+          var donut = svg.selectAll(".arc")
+              .data(pie(data));
+
+          console.log(data);
+          // Set colors for donut arcs
+          var color = d3.scale.ordinal()
+              .range(["#FF0000", "#FFFF00", "#D3D3D3"]);
+
+          // Setup arc
+          donut.enter().append("g")
+              .attr("class", "arc");
+
+          // Draw colours
+          donut.append("path")
+              .attr("d", donut_arc)
+              // By putting in the x/y positions, received from the packing function we can set our own circles.
+              .attr("transform",  "translate(" + x + "," + y + ")" )
+              .style("fill", function(d) { return color(d.age); });
+
+          // Add text
+//          donut.append("text")
+//              .attr("transform", function(d) { return "translate(" + donut_arc.centroid(d) + ")"; })
+//              .attr("dy", ".35em")
+//              .style("text-anchor", "middle")
+//              .text(function(d) { return d.data.population; });
+
+          // Remove control from donut
+          donut.exit().remove();
+      }
+
+      return radius;
+
+  }
 
   /*------
 
@@ -146,104 +158,74 @@
 
   ------- */
 
-  var pack = d3.layout.pack()
-      .size([radius, radius])
-      .value(function(d) { return d.size; });
-
-  var vis = d3.select("body").insert("svg:svg", "h2")
-      .attr("width", w)
-      .attr("height", h)
-    .append("svg:g")
-      .attr("transform", "translate(" + (w - r) / 2 + "," + (h - r) / 2 + ")");
-
-  d3.json("flare.json", function(data) {
+  d3.json("data.json", function(data) {
     node = root = data;
 
-    var nodes = pack.nodes(root);
+  var nodes = pack.nodes(root);
 
-    svg.selectAll("circle")
-        .data(nodes)
-      .enter().append("svg:circle")
-        .attr("class", function(d) { return d.children ? "parent" : "child"; })
-        .attr("cx", function(d) { return d.x; })
-        .attr("cy", function(d) { return d.y; })
-        .attr("r", function(d) { return d.r; })
-        .on("click", function(d) { return zoom(node == d ? root : d); });
+  svg.selectAll("circle")
+      .data(nodes)
+    .enter().append("svg:circle")
+      .attr("class", function(d) { return d.children ? "parent" : "child"; })
+      .attr("cx", function(d) { return d.x; })
+      .attr("cy", function(d) { return d.y; })
+      .attr("r", function(d) { console.log(d); return donut(d.x, d.y, d.r, d); })
+//      .attr("r", function(d) { return d.r; })
+      .on("click", function(d) { return zoom(node == d ? root : d); });
 
-    svg.selectAll("text")
-        .data(nodes)
-      .enter().append("svg:text")
-        .attr("class", function(d) { return d.children ? "parent" : "child"; })
-        .attr("x", function(d) { return d.x; })
-        .attr("y", function(d) { return d.y; })
-        .attr("dy", ".35em")
-        .attr("text-anchor", "middle")
-        .style("opacity", function(d) { return d.r > 20 ? 1 : 0; })
-        .text(function(d) { return d.name; });
 
-    d3.select(window).on("click", function() { zoom(root); });
+
+  svg.selectAll("text")
+      .data(nodes)
+    .enter().append("svg:text")
+      .attr("class", function(d) { return d.children ? "parent" : "child"; })
+      .attr("x", function(d) { return d.x; })
+      .attr("y", function(d) { return d.y; })
+      .attr("dy", ".35em")
+      .attr("text-anchor", "middle")
+      .style("opacity", function(d) { return d.r > 20 ? 1 : 0; })
+      .text(function(d) { return d.name; });
+
+  d3.select(window).on("click", function() { zoom(root); });
+
   });
 
-  function zoom(d, i) {
+
+  function zoom(d) {
+    console.log('In zoom')
     var k = r / d.r / 2;
+
     x.domain([d.x - d.r, d.x + d.r]);
     y.domain([d.y - d.r, d.y + d.r]);
+
 
     var t = svg.transition()
         .duration(d3.event.altKey ? 7500 : 750);
 
+    // Set size of new donut arcs, for transitions
+    var new_arc = d3.svg.arc()
+       .outerRadius(k * d.r  + 2)
+       .innerRadius(k * d.r);
+    // Redraws arc's so that the transforms happen ona clean canvas
+    t.selectAll("path")
+        .attr("d", new_arc)
+        .attr("fill-opacity", 1)
+        .attr("stroke-opacity", 1)
+        .attr("transform",  "translate(" + x(d.x) + "," + y(d.y) + ")" )
+        .style("fill", function(d) { console.log(d); return color(d.data.age); });
     t.selectAll("circle")
         .attr("cx", function(d) { return x(d.x); })
         .attr("cy", function(d) { return y(d.y); })
-        .attr("r", function(d) { return k * d.r; });
-
+//        .attr("r", function(d) { return(k * d.r); });
+        .attr("r", function(d) { donut(x(d.x), y(d.y), k * d.r, d.data); return(k * d.r); });
     t.selectAll("text")
         .attr("x", function(d) { return x(d.x); })
         .attr("y", function(d) { return y(d.y); })
         .style("opacity", function(d) { return k * d.r > 20 ? 1 : 0; });
 
-    node = d;
+
     d3.event.stopPropagation();
   }
-
-
-      /*------------
-
-      Setup of pack layout
-
-      ----------*/
-
-    // Set the format of text to integer
-    var format = d3.format(",d");
-
-    // Set the pack size to be the same as the diameter, .value autogenerates area of new values
-    var pack = d3.layout.pack()
-        .size([max_radius*2, max_radius*2])
-        .value(function(d) { return d.size; });
-
-      var node = svg.datum(root).selectAll(".node")
-          .data(pack.nodes)
-        .enter().append("g")
-          // If the datapoint has children then give it the class root, other-wise give it the class leaf node
-        .attr("class", function(d) { return d.children ? "node" : "leaf node"; })
-        // X/Y params for each circle
-        .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
-//              .attr("transform", function(d) { donut(d.x, d.y); return "translate(" + d.x + "," + d.y + ")"; });
-
-      // Add title per leaf - This doesn't currently render
-      node.append("title")
-          .text(function(d) { return d.name + (d.children ? "" : ": " + format(d.size)); });
-
-      // Sets up the size of the radius for the circle, this is probably what we want to pass to the donut
-      node.append("circle")
-          .attr("r", function(d) { donut(d.x, d.y, d.r, d.data); return d.r; });
-
-      // Adds text to each node
-      node.filter(function(d) { return !d.children; }).append("text")
-          .attr("dy", ".3em")
-          .style("text-anchor", "middle")
-          .text(function(d) { return d.name.substring(0, d.r / 3); });
-
 
    /*----
 
@@ -418,73 +400,6 @@
   }
 //
 //  spider_group()
-
-  /*----
-
-  Setup of Donut Graph
-
-   ----*/
-
-   // Setup data for donut
-
-  function donut(x, y, radius, data) {
-        console.log("Donut X" + x);
-      console.log("Donut Y" + y);
-      if (!data) {
-          var data = [
-              {"age":"overdue", "population":"4"},
-              {"age":"due today", "population":"11"},
-              {"age":"future", "population":"23"}
-          ];
-      }
-
-      // Set colors for donut arcs
-      var color = d3.scale.ordinal()
-          .range(["#FF0000", "#FFFF00", "#D3D3D3"]);
-
-      // Set size of donut arcs
-//      var donut_arc = d3.svg.arc()
-//          .outerRadius(max_radius + 30)
-//          .innerRadius(max_radius);
-      var donut_arc = d3.svg.arc()
-          .outerRadius(radius + 3)
-          .innerRadius(radius);
-
-
-      // Create Pie Graph
-      var pie = d3.layout.pie()
-          .value(function(d) { return d.population; });
-
-      // Create data
-      var donut = svg.selectAll(".arc")
-          .data(pie(data));
-
-      // Setup arc
-      donut.enter().append("g")
-          .attr("class", "arc")
-//          .attr("transform",  "translate(" + x + "," + y + ")" );
-
-      // Draw colours
-      donut.append("path")
-          .attr("d", donut_arc)
-          // By putting in the x/y positions, received from the packing function we can set our own circles.
-          .attr("transform",  "translate(" + x + "," + y + ")" )
-          .style("fill", function(d) { return color(d.data.age); });
-
-      // Add text
-//      donut.append("text")
-//          .attr("transform", function(d) { return "translate(" + donut_arc.centroid(d) + ")"; })
-//          .attr("dy", ".35em")
-//          .style("text-anchor", "middle")
-//          .text(function(d) { return d.data.population; });
-
-      // Remove control from donut
-      donut.exit().remove();
-
-  }
-
-//  donut()
-
 
   </script>
 
