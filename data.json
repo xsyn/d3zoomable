@@ -11,64 +11,96 @@
      "children": [
       {
        "name": "Shannon & line reports",
-       "data" : [
-           {"age":"overdue", "population":"10"},
-           {"age":"due today", "population":"2"},
-           {"age":"future", "population":"40"}
-       ],
-       "children": [
-        {
-          "name": "Shannon's line reports",
-            "data" : [
-                {"age":"overdue", "population":"8"},
-                {"age":"due today", "population":"2"},
-                {"age":"future", "population":"32"}
-            ],
           "children": [
             {"name": "Riana", "size": 10,
              "data": [
                 {"age":"overdue", "population":"334"},
                 {"age":"due today", "population":"1"},
-                {"age":"future", "population":"2"}]
+                {"age":"future", "population":"2"}],
+                                               "timeline" : [
+                                                      {"age" : "verylate", "population" : 10},
+                                                      {"age" :"sixmonth", "population" : 10},
+                                                      {"age" :"month", "population" : 10},
+                                                      {"age" :"week", "population": 0},
+                                                      {"age" :"day", "population" : 30},
+                                                      {"age" :"ontime", "population" : 40}
+                                              ]
            },
            {"name": "Nicola", "size": 3,
             "data": [
                 {"age":"overdue", "population":"3"},
                 {"age":"due today", "population":"10"},
-                {"age":"future", "population":"25"}]
+                {"age":"future", "population":"25"}],
+                                               "timeline" : [
+                                                      {"age" : "verylate", "population" : 10},
+                                                      {"age" :"sixmonth", "population" : 10},
+                                                      {"age" :"month", "population" : 10},
+                                                      {"age" :"week", "population": 0},
+                                                      {"age" :"day", "population" : 30},
+                                                      {"age" :"ontime", "population" : 40}
+                                              ]
             },
             {"name": "Grace", "size": 5,
              "data": [
                   {"age":"overdue", "population":"3"},
                   {"age":"due today", "population":"10"},
-                  {"age":"future", "population":"25"}]
+                  {"age":"future", "population":"25"}],
+                                                 "timeline" : [
+                                                        {"age" : "verylate", "population" : 10},
+                                                        {"age" :"sixmonth", "population" : 10},
+                                                        {"age" :"month", "population" : 10},
+                                                        {"age" :"week", "population": 0},
+                                                        {"age" :"day", "population" : 30},
+                                                        {"age" :"ontime", "population" : 40}
+                                                ]
             },
             {
-             "name": "Dawie & line reports",
-             "children": [
-              {
+
                "name": "Dawie's line reports",
                "children": [
                 {"name": "Dave", "size": 10,
                     "data": [
                                             {"age":"overdue", "population":"3"},
                                             {"age":"due today", "population":"10"},
-                                            {"age":"future", "population":"25"}]
+                                            {"age":"future", "population":"25"}],
+                                                                                                             "timeline" : [
+                                                                                                                    {"age" : "verylate", "population" : 15},
+                                                                                                                    {"age" :"sixmonth", "population" : 10},
+                                                                                                                    {"age" :"month", "population" : 20},
+                                                                                                                    {"age" :"week", "population": 30},
+                                                                                                                    {"age" :"day", "population" : 10},
+                                                                                                                    {"age" :"ontime", "population" : 5}
+                                                                                                            ]
                                     },
                 {"name": "Ntsiki", "size": 11,
                     "data": [
                                   {"age":"overdue", "population":"3"},
                                   {"age":"due today", "population":"10"},
-                                  {"age":"future", "population":"25"}
-                            ]
+                                  {"age":"future", "population":"25"}],
+                                                                 "timeline" : [
+                                                                        {"age" : "verylate", "population" : 10},
+                                                                        {"age" :"sixmonth", "population" : 10},
+                                                                        {"age" :"month", "population" : 10},
+                                                                        {"age" :"week", "population": 0},
+                                                                        {"age" :"day", "population" : 30},
+                                                                        {"age" :"ontime", "population" : 40}
+                                                                ]
+
                 },
                   {"name": "Dawie", "size": 15,
                       "data": [
                           {"age":"overdue", "population":"3"},
                           {"age":"due today", "population":"10"},
-                          {"age":"future", "population":"25"}]
+                          {"age":"future", "population":"25"}],
+                               "timeline" : [
+                                      {"age" : "verylate", "population" : 10},
+                                      {"age" :"sixmonth", "population" : 10},
+                                      {"age" :"month", "population" : 10},
+                                      {"age" :"week", "population": 0},
+                                      {"age" :"day", "population" : 30},
+                                      {"age" :"ontime", "population" : 40}
+                              ]
                   }
-             ]}
           ]
         },
         {"name": "Shannon", "size": 54,
@@ -76,8 +108,16 @@
               {"age":"overdue", "population":"30"},
               {"age":"due today", "population":"1"},
               {"age":"future", "population":"100"}
-         ]}
-        ]
+         ],
+              "timeline" : [
+                     {"age" : "verylate", "population" : 0},
+                     {"age" :"sixmonth", "population" : 0},
+                     {"age" :"month", "population" : 0},
+                     {"age" :"week", "population": 0},
+                     {"age" :"day", "population" : 20},
+                     {"age" :"ontime", "population" : 80}
+             ]
+
       }
      ]
     },
@@ -87,7 +127,16 @@
           {"age":"overdue", "population":"3"},
           {"age":"due today", "population":"10"},
           {"age":"future", "population":"25"}
-     ]}
+     ],
+     "timeline" : [
+            {"age" : "verylate", "population" : 10},
+            {"age" :"sixmonth", "population" : 20},
+            {"age" :"month", "population" : 10},
+            {"age" :"week", "population": 0},
+            {"age" :"day", "population" : 20},
+            {"age" :"ontime", "population" : 40}
+    ]
+    }
    ]}
    ]
 }

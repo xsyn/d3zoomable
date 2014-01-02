@@ -13,7 +13,7 @@
 
         .leaf circle {
           fill: #d9d9d9;
-          fill-opacity: 1;
+          fill-opacity: 5;
         }
 
         text {
@@ -37,7 +37,12 @@
 
         circle.parent {
           fill: #d9d9d9;
-          fill-opacity: .1;
+          fill-opacity: .4;
+        }
+
+        circle.child {
+          fill: #d9d9d9;
+          fill-opacity: .4;
         }
 
         circle.parent:hover {
@@ -45,8 +50,17 @@
           stroke-width: .5px;
         }
 
-        circle.child {
-          pointer-events: none;
+        circle.spider {
+          fill: none;
+          fill-opacity: .25;
+          stroke: #d9d9d9
+          stroke-width: 1px;
+        }
+        
+        circle.zoom {
+            fill-opacity: 0;
+            filter: none;
+            stroke: none;
         }
 
     </style>
@@ -94,13 +108,18 @@
       .append("g")
       .attr("transform", "translate(" + (width - radius) / 2 + "," + (height - radius) / 2 + ")");
 
-
   var pie = d3.layout.pie()
        .value(function(d) { return d});
 
      // Set colors for donut arcs
   var color = d3.scale.ordinal()
       .range(["#fb8072", "#ffffb3", "#8dd3c7"]);
+
+  var time_color = d3.scale.ordinal()
+        .range(["#ffed6f", "#ccebc5", "#bc80bd", "#fccde5", "#b3de69", "#fdb462"]);
+
+  var step_helper = ["one","two","three","four","five","six","seven","eight","nine","ten","eleven"];
+  var timeline = ["late", "sixmonth", "month", "week", "day", "ontime"];
 
   /*------
 
@@ -116,50 +135,84 @@
   svg.selectAll("circle")
       .data(nodes)
     .enter().append("svg:circle")
-//      .attr("class", function(d) { return d.children ? "parent" : "child"; })
-              .attr("class", function(d) { return "parent"; })
+      .attr("class", function(d) { return d.children ? "parent" : "child"; })
               .attr("cx", function(d) { return d.x; })
       .attr("cy", function(d) { return d.y; })
       .attr("r", function(d) { return d.r; })
       .on("click", function(d) { return zoom(d); });
 
-  svg.selectAll(".arc .one")
-          .data(nodes)
-          .enter().append("svg:path")
-          .attr("d", function (d) {console.log(d); if (typeof d.data != "undefined") {  var donut_arc = d3.svg.arc()
-                .outerRadius(d.r)
-                .innerRadius(d.r);
-              return donut_arc(pie([d.data[0].population, d.data[1].population, d.data[2].population])[0] )}})
-          .attr("class", "arc one")
-          .attr("transform", function (d) {return "translate(" + d.x + "," + d.y + ")"})
-          .attr("stroke", function(d) { if (typeof d.data != "undefined") {return color(d.data[0].age); }})
-          .attr("stroke-width", 3);
-  svg.selectAll(".arc .two")
-          .data(nodes)
-          .enter().append("svg:path")
-          .attr("d", function (d) {console.log(d); if (typeof d.data != "undefined") {  var donut_arc = d3.svg.arc()
-                .outerRadius(d.r)
-                .innerRadius(d.r);
-              return donut_arc(pie([d.data[0].population, d.data[1].population, d.data[2].population])[1] )}})
-          .attr("class", "arc two")
-          .attr("transform", function (d) {return "translate(" + d.x + "," + d.y + ")"})
-          .attr("stroke", function(d) { if (typeof d.data != "undefined") {return color(d.data[1].age); }})
-      .attr("stroke-width", 3);
-  svg.selectAll(".arc .three")
-          .data(nodes)
-          .enter().append("svg:path")
-          .attr("d", function (d) {console.log(d); if (typeof d.data != "undefined") {  var donut_arc = d3.svg.arc()
-                .outerRadius(d.r)
-                .innerRadius(d.r);
-              return donut_arc(pie([d.data[0].population, d.data[1].population, d.data[2].population])[2] )}})
-          .attr("class", "arc three")
-          .attr("transform", function (d) {return "translate(" + d.x + "," + d.y + ")"})
-          .attr("stroke", function(d) { if (typeof d.data != "undefined") {return color(d.data[2].age); }})
-          .attr("stroke-width", 3);
+  for (var i = 0;i < step_helper.length; i++) {
+    var radius = function(d) { return d.r -  i * 10};
+  svg.selectAll(".spider ." + step_helper[i] + " ")
+    .data(nodes)
+  .enter().append("svg:circle")
+          .attr("class", "spider " + step_helper[i])
+        .attr("cx", function(d) { return d.x} )
+         .attr("cy", function (d) { return d.y})
+        .attr("stroke", "#bebada")
+        .attr("r", function(d) { if (radius(d) > 0) { return radius(d); } else { return 0; }})
+        .on("click", function(d) { return zoom(d); });
+      }
+
+  for (var i = 0; i < timeline.length; i++) {
+       svg.selectAll(".time ." + timeline[i])
+               .data(nodes)
+               .enter().append("svg:path")
+               .attr("d", function (d) {  if (typeof d.timeline != "undefined") {
+                   console.log(d.timeline)
+                       var pie_rad;
+                       if (d.timeline[i].population == 0) { pie_rad == 0} else { pie_rad = d.r / 100 * d.timeline[i].population}
+                       console.log(d.timeline[i].population);
+                       console.log(i);
+                       console.log(pie_rad);
+                       var donut_arc = d3.svg.arc()
+                           .outerRadius(pie_rad)
+                           .innerRadius(0);
+                       return donut_arc(pie([d.timeline[0].population,
+                                     d.timeline[1].population,
+                                     d.timeline[2].population,
+                                     d.timeline[3].population,
+                                     d.timeline[4].population,
+                                     d.timeline[5].population])[i])}})
+
+               .attr("class", "time " + timeline[i])
+               .attr("transform", function (d) {return "translate(" + d.x + "," + d.y + ")"})
+               .attr("fill", function(d) { if (typeof d.timeline != "undefined") {return time_color(d.timeline[i].age); }})
+               .attr("stroke-width", 3);
+
+
+   }
+
+
+
+   svg.selectAll("zoom")
+       .data(nodes)
+     .enter().append("svg:circle")
+       .attr("class", "zoom")
+       .attr("cx", function(d) { return d.x; })
+       .attr("cy", function(d) { return d.y; })
+       .attr("r", function(d) { return d.r; })
+       .on("click", function(d) { return zoom(d); });
+
+  for (var i = 0;i < 3; i++) {
+      svg.selectAll(".arc ." + step_helper[i])
+              .data(nodes)
+              .enter().append("svg:path")
+              .attr("d", function (d) { if (typeof d.data != "undefined") {  var donut_arc = d3.svg.arc()
+                    .outerRadius(d.r)
+                    .innerRadius(d.r);
+                  return donut_arc(pie([d.data[0].population, d.data[1].population, d.data[2].population])[i] )}})
+              .attr("class", "arc " + step_helper[i])
+              .attr("transform", function (d) {return "translate(" + d.x + "," + d.y + ")"})
+              .attr("stroke", function(d) { if (typeof d.data != "undefined") {return color(d.data[i].age); }})
+              .attr("stroke-width", 3)
+              .on("click", function(d) { return zoom(d); });
+  }
 
   svg.selectAll("text")
     .data(nodes)
   .enter().append("svg:text")
+//              .attr("class", function(d) { return d.children ? "parent" : "child"; }) //-- Commented out because it aligns with center of circle, which is difficult to read
     .attr("class", function(d) { return d.children ? "parent" : "child"; })
     .attr("x", function(d) { return d.x; })
     .attr("y", function(d) { return d.y; })
@@ -187,17 +240,32 @@
         var t = svg.transition();
     }
 
-      t.selectAll(".arc")
-              .attr("transform", function(d) {return "translate(" + x(d.x) + "," + y(d.y) + "), scale(" + k + ")"} )
-              .attr("stroke-width", 3 / k);
+    t.selectAll(".time")
+          .attr("transform", function(d) {return "translate(" + x(d.x) + "," + y(d.y) + "), scale(" + k + ")"} )
+          .attr("stroke-width", 3 / k);
+
+    t.selectAll(".arc")
+          .attr("transform", function(d) {return "translate(" + x(d.x) + "," + y(d.y) + "), scale(" + k + ")"} )
+          .attr("stroke-width", 3 / k);
+
     t.selectAll("circle")
         .attr("cx", function(d) { return x(d.x); })
         .attr("cy", function(d) { return y(d.y); })
         .attr("r", function(d) { return(k * d.r); });
+
     t.selectAll("text")
         .attr("x", function(d) { return x(d.x); })
         .attr("y", function(d) { return y(d.y); })
         .style("opacity", function(d) { return k * d.r > 20 ? 1 : 0; });
+
+      for (var i = 0;i < step_helper.length; i++) {
+         var radius = function(d) { return k * d.r -  i * 20};
+          t.selectAll("." + step_helper[i])
+              .attr("cx", function(d) { return x(d.x); })
+              .attr("cy", function(d) { return y(d.y); })
+              .attr('visibility', function(d) { return d.children ? "hidden" : "visible"; })
+              .attr("r", function(d) { if (radius(d) > 0) { return radius(d); } else { return 0; }});
+      }
 
 
     if (d3.event) {
@@ -205,179 +273,38 @@
     }
   }
 
-   /*----
 
-  Setup of Spider Graph
-
-   ----*/
-
-  function spider_group() {
-
-
-  // Field - name is the status, radius values define the circles, colour defines colour
-  var fields = [
-    {name: "very late", value:[5/6,1], innerRadius:0, outerRadius: max_radius, color:"#6a0000"},
-    {name: "very late", value:[1,1], innerRadius: max_radius, outerRadius: max_radius, color:"#440000"},
-    {name: "up to 6 months late", value:[4/6,5/6], innerRadius:0, outerRadius:0.9*max_radius, color:"#ad0000"},
-    {name: "up to 6 months late", value:[1,1], innerRadius:0.9*max_radius, outerRadius:0.9*max_radius, color:"#980101"},
-    {name: "up to 1 month late", value:[3/6,4/6], innerRadius:0, outerRadius:0.8*max_radius, color:"#db4100"},
-    {name: "up to 1 month late", value:[4/6,1], innerRadius:0.8*max_radius, outerRadius:0.8*max_radius, color:"#d40000"},
-    {name: "up to 1 week late", value:[2/6,3/6], innerRadius:0, outerRadius:0.7*max_radius, color:"#e37f04"},
-    {name: "up to 1 week late", value:[3/6,1], innerRadius:0.7*max_radius, outerRadius:0.7*max_radius, color:"#fd3301"},
-    {name: "up to 1 day late", value:[1/6,2/6], innerRadius:0, outerRadius:0.6*max_radius, color:"#e4b500"},
-    {name: "up to 1 day late", value:[2/6,1], innerRadius:0.6*max_radius, outerRadius:0.6*max_radius, color:"#f44800"},
-    {name: "in time", value:[0,1/6], innerRadius:0, outerRadius:0.5*max_radius, color:"#54a913"}
-  ];
-
-  var circles = svg.selectAll("circle")
-                              .data(fields);
-
-   circles.enter()
-          .append("circle")
-           .attr("cx", 0)
-            .attr("cy", 0)
-           .attr("fill", function(d) { return (d.color); })
-            .attr("r", function (d) {  return d.outerRadius; })
-           .attr("fill", function(d) { return (d.color); });
-
-   circles.exit().remove();
-
-    // Our score starts at 0
-    var score = [
-        {x: max_radius, y: max_radius, percentage: 0 }
-    ];
-
-    // Setup of our arc's
-    var arc = d3.svg.arc()
-        .innerRadius(function(d) { return d.innerRadius; })
-        .outerRadius(function(d) { return d.outerRadius; })
-        .startAngle(function(d) { return (d.value[0] * 2 * Math.PI); })
-        .endAngle(function(d) { return (d.value[1] * 2 * Math.PI); });
-
-    // Some dummy data to get started
-    var dataset = [80, 10, 10, 20, 10, 10].reverse(),
-        //set dataset size computationally
-        dataset_size = dataset.length,
-        dataseries = [dataset[0]],
-        angle_offset = 0,
-        padding = 0,
-        i = 0,
-
-        // I have no idea why we're reversing the dataset
-
-        // Second set of dummy data
-        dataset = [20,2,2,1,0,1].reverse(),
-        dataseries = [dataset[0]],
-
-
-        // This should be moved to the higher variable section once in place:
-        sum = d3.sum(dataset);
-
-    for (i=1; i<dataset_size; i++) {
-        dataseries[i] = dataseries[i-1]+dataset[i];
-    }
-
-    for (i=0; i<dataset_size; i++){
-        if(0==dataset[i]) {
-            padding +=1;
-        } else {
-            i=dataset_size;
-        }
-    }
-
-    angle_offset = dataset[dataset_size-1]/sum/2;
-
-    fields[0].previous = fields[0].value;
-    fields[0].value = [0/sum+angle_offset, dataseries[0]/sum+angle_offset];
-
-    if((padding-1)>=0) {
-        fields[0].outerRadius = 0;
-    } else {
-        fields[0].outerRadius = (1-(0-padding)/(2*dataset_size))*max_radius;
-    }
-
-    for(i=1; i<dataset_size; i++) {
-        fields[2*i-1].previous = fields[2*i-1].value;
-        fields[2*i-1].value = [dataseries[i-1]/sum+angle_offset, 1+angle_offset];
-        if((padding-1)>=(i-1)) {
-            fields[2*i-1].outerRadius = max_radius;
-        } else {
-            fields[2*i-1].outerRadius = (1-((i-1)-padding)/(2*dataset_size))*max_radius
-        }
-
-        fields[2*i-1].innerRadius = fields[2*i-1].outerRadius;
-        fields[2*i].previous = fields[2*i].value;
-        fields[2*i].value = [dataseries[(i-1)]/sum+angle_offset, dataseries[i]/sum+angle_offset];
-
-        if((padding-1)>=(i)) {
-            fields[2*i].outerRadius = max_radius;
-        } else {
-            fields[2*i].outerRadius = (1-((i)-padding)/(2*dataset_size))*max_radius;
-        }
-    }
-
-    i = 2*dataset_size-2;
-
-    var arc_angle = (fields[i].value[1] - fields[i].value[0]) * 2 * Math.PI,
-                     arc_radius = (fields[i].outerRadius-fields[i].innerRadius)/max_radius,
-                     green_area = 0,
-                     total_area = 0;
-
-    if (0 < arc_angle) {
-        green_area = arc_radius*arc_radius*arc_angle*180/Math.PI;
-    } else {
-        green_area = 0;
-    }
-
-    for (i=2*dataset_size-2; i>=0; i-=2) {
-        arc_angle = (fields[i].value[1] - fields[i].value[0]) * 2 * Math.PI;
-        arc_radius = (fields[i].outerRadius-fields[i].innerRadius)/max_radius;
-        total_area += arc_radius*arc_radius*arc_angle*180/Math.PI;
-    }
-
-    score[0].percentage = green_area / total_area * 100;
-
-    var path = svg.selectAll("path")
-        .data(fields.filter(function(d) { return (d.value); }), function(d) { return d.name; });
-
-    path.enter().append("path")
-        .attr("fill", function(d) { return (d.color); })
-        .attr("stroke", function(d) { return (d.color); })
-        .attr("title", function(d) { return (d.name + " = " + Math.round((d.value[1]-d.value[0])*sum)); })
-        .transition()
-        .ease("elastic")
-        .duration(750)
-        .attrTween("d", arcTween);
-
-        path.exit().remove();
-
-  var path = svg.selectAll("path")
-          .data(fields.filter(function(d) { return (d.value); }), function(d) { return d.name; });
-
-
-    var total_score = svg.selectAll("text")
-        .data(score);
-
-    total_score.enter().append("text")
-          .attr("text-anchor", "middle")
-          .attr("font-size", font_size)
-          .attr("font-weight", "bold")
-          .attr("text-shadow", "0px 0px 20px white")
-          .attr("fill", "#00FF00")
-      .text(function(d) { return Math.round(d.percentage)+"%"; })
-
-    total_score.exit();
-
-    function arcTween(b) {
-      var i = d3.interpolate({value: b.previous}, b);
-      return function(t) {
-        return arc(i(t));
-      };
-    }
-
-  }
 //
-//  spider_group()
+//    // Our score starts at 0
+//    var score = [
+//        {x: max_radius, y: max_radius, percentage: 0 }
+//    ];
+//
+//    // Setup of our arc's
+
+
+//    var total_score = svg.selectAll("text")
+//        .data(score);
+//
+//    total_score.enter().append("text")
+//          .attr("text-anchor", "middle")
+//          .attr("font-size", font_size)
+//          .attr("font-weight", "bold")
+//          .attr("text-shadow", "0px 0px 20px white")
+//          .attr("fill", "#00FF00")
+//      .text(function(d) { return Math.round(d.percentage)+"%"; })
+//
+//    total_score.exit();
+//
+//    function arcTween(b) {
+//      var i = d3.interpolate({value: b.previous}, b);
+//      return function(t) {
+//        return arc(i(t));
+//      };
+//    }
+//
+//  }
+
 
   </script>
 
