@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <style type="text/css">
+        circle {
+          fill: #d9d9d9
+          fill: none;
+          fill-opacity: .25;
+          stroke: #d9d9d9
+          stroke-width: 0px;
+        }
+
+        .leaf circle {
+          fill: #d9d9d9;
+          fill-opacity: 5;
+        }
+
+        text {
+          font: 20px sans-serif;
+        }
+
+        text {
+          font-size: 11px;
+          pointer-events: none;
+        }
+
+        text.parent {
+          fill: #1f77b4;
+        }
+
+        circle {
+          fill: #d9d9d9
+          stroke: #999;
+          pointer-events: all;
+        }
+
+        circle.parent {
+          fill: #d9d9d9;
+          fill-opacity: .4;
+        }
+
+        circle.child {
+          fill: #d9d9d9;
+          fill-opacity: .4;
+        }
+
+        circle.parent:hover {
+          stroke: #d9d9d9;
+          stroke-width: .5px;
+        }
+
+        circle.spider {
+          fill: none;
+          fill-opacity: .25;
+          stroke: #d9d9d9
+          stroke-width: 1px;
+        }
+        
+        circle.zoom {
+            fill-opacity: 0;
+            filter: none;
+            stroke: none;
+        }
+
+    </style>
+  </head>
+  <body>
+  <script>
+
+  // Setup the canvas
+  var width = 1280,
+      height = 800,
+      radius = Math.min(width, height) / 2,
+      x = d3.scale.linear().range([0, radius]),
+      y = d3.scale.linear().range([0, radius]),
+      node,
+      root;
+
+  // Set size of donut arcs
+  var donut_arc = d3.svg.arc()
+      .outerRadius(radius)
+      .innerRadius(radius);
+
+  var w = width,
+      r = radius,
+      h = height;
+
+  // Make maximum radius half of the radius of the donut
+  var max_radius = radius/2,
+      font_size = max_radius/3;
+
+  // Set the format of text to integer
+  var format = d3.format(",d");
+
+  // Set the pack size to be the same as the diameter, .value auto-generates area of new values
+  var pack = d3.layout.pack()
+      .size([max_radius*2, max_radius*2])
+      .value(function(d) { return d.size; });
+
+  var svg = d3.select("body")
+    .append("svg")
+      .attr("width", width)
+      .attr("height", height)
+      .attr("fill-rule", "evenodd")
+      .attr("fill-opacity", 1)
+      .attr("stroke-width", "1px")
+      .append("g")
+      .attr("transform", "translate(" + (width - radius) / 2 + "," + (height - radius) / 2 + ")");
+
+  var pie = d3.layout.pie()
+       .value(function(d) { return d});
+
+     // Set colors for donut arcs
+  var color = d3.scale.ordinal()
+      .range(["#fb8072", "#ffffb3", "#8dd3c7"]);
+
+  var time_color = d3.scale.ordinal()
+        .range(["#ffed6f", "#ccebc5", "#bc80bd", "#fccde5", "#b3de69", "#fdb462"]);
+
+  var step_helper = ["one","two","three","four","five","six","seven","eight","nine","ten","eleven"];
+  var timeline = ["late", "sixmonth", "month", "week", "day", "ontime"];
+
+  /*------
+
+  Zoomable pack layout
+
+  ------- */
+
+  d3.json("data.json", function(data) {
+    node = root = data;
+
+  var nodes = pack.nodes(root);
+
+  svg.selectAll("circle")
+      .data(nodes)
+    .enter().append("svg:circle")
+      .attr("class", function(d) { return d.children ? "parent" : "child"; })
+              .attr("cx", function(d) { return d.x; })
+      .attr("cy", function(d) { return d.y; })
+      .attr("r", function(d) { return d.r; })
+      .on("click", function(d) { return zoom(d); });
+
+  for (var i = 0;i < step_helper.length; i++) {
+    var radius = function(d) { return d.r -  i * 10};
+  svg.selectAll(".spider ." + step_helper[i] + " ")
+    .data(nodes)
+  .enter().append("svg:circle")
+          .attr("class", "spider " + step_helper[i])
+        .attr("cx", function(d) { return d.x} )
+         .attr("cy", function (d) { return d.y})
+        .attr("stroke", "#bebada")
+        .attr("r", function(d) { if (radius(d) > 0) { return radius(d); } else { return 0; }})
+        .on("click", function(d) { return zoom(d); });
+      }
+
+  for (var i = 0; i < timeline.length; i++) {
+       svg.selectAll(".time ." + timeline[i])
+               .data(nodes)
+               .enter().append("svg:path")
+               .attr("d", function (d) {  if (typeof d.timeline != "undefined") {
+                   console.log(d.timeline)
+                       var pie_rad;
+                       if (d.timeline[i].population == 0) { pie_rad == 0} else { pie_rad = d.r / 100 * d.timeline[i].population}
+                       console.log(d.timeline[i].population);
+                       console.log(i);
+                       console.log(pie_rad);
+                       var donut_arc = d3.svg.arc()
+                           .outerRadius(pie_rad)
+                           .innerRadius(0);
+                       return donut_arc(pie([d.timeline[0].population,
+                                     d.timeline[1].population,
+                                     d.timeline[2].population,
+                                     d.timeline[3].population,
+                                     d.timeline[4].population,
+                                     d.timeline[5].population])[i])}})
+
+               .attr("class", "time " + timeline[i])
+               .attr("transform", function (d) {return "translate(" + d.x + "," + d.y + ")"})
+               .attr("fill", function(d) { if (typeof d.timeline != "undefined") {return time_color(d.timeline[i].age); }})
+               .attr("stroke-width", 3);
+
+
+   }
+
+
+
+   svg.selectAll("zoom")
+       .data(nodes)
+     .enter().append("svg:circle")
+       .attr("class", "zoom")
+       .attr("cx", function(d) { return d.x; })
+       .attr("cy", function(d) { return d.y; })
+       .attr("r", function(d) { return d.r; })
+       .on("click", function(d) { return zoom(d); });
+
+  for (var i = 0;i < 3; i++) {
+      svg.selectAll(".arc ." + step_helper[i])
+              .data(nodes)
+              .enter().append("svg:path")
+              .attr("d", function (d) { if (typeof d.data != "undefined") {  var donut_arc = d3.svg.arc()
+                    .outerRadius(d.r)
+                    .innerRadius(d.r);
+                  return donut_arc(pie([d.data[0].population, d.data[1].population, d.data[2].population])[i] )}})
+              .attr("class", "arc " + step_helper[i])
+              .attr("transform", function (d) {return "translate(" + d.x + "," + d.y + ")"})
+              .attr("stroke", function(d) { if (typeof d.data != "undefined") {return color(d.data[i].age); }})
+              .attr("stroke-width", 3)
+              .on("click", function(d) { return zoom(d); });
+  }
+
+  svg.selectAll("text")
+    .data(nodes)
+  .enter().append("svg:text")
+//              .attr("class", function(d) { return d.children ? "parent" : "child"; }) //-- Commented out because it aligns with center of circle, which is difficult to read
+    .attr("class", function(d) { return d.children ? "parent" : "child"; })
+    .attr("x", function(d) { return d.x; })
+    .attr("y", function(d) { return d.y; })
+    .attr("dy", ".35em")
+    .attr("text-anchor", "middle")
+    .style("opacity", function(d) { return d.r > 20 ? 1 : 0; })
+    .text(function(d) { return d.name; });
+
+  zoom(root);
+
+  });
+
+
+  function zoom(e) {
+
+    var k = r / e.r / 2;
+
+    x.domain([e.x - e.r, e.x + e.r]);
+    y.domain([e.y - e.r, e.y + e.r]);
+
+    if (d3.event != null) {
+        var t = svg.transition()
+            .duration(d3.event.altKey ? 7500 : 750);
+    } else {
+        var t = svg.transition();
+    }
+
+    t.selectAll(".time")
+          .attr("transform", function(d) {return "translate(" + x(d.x) + "," + y(d.y) + "), scale(" + k + ")"} )
+          .attr("stroke-width", 3 / k);
+
+    t.selectAll(".arc")
+          .attr("transform", function(d) {return "translate(" + x(d.x) + "," + y(d.y) + "), scale(" + k + ")"} )
+          .attr("stroke-width", 3 / k);
+
+    t.selectAll("circle")
+        .attr("cx", function(d) { return x(d.x); })
+        .attr("cy", function(d) { return y(d.y); })
+        .attr("r", function(d) { return(k * d.r); });
+
+    t.selectAll("text")
+        .attr("x", function(d) { return x(d.x); })
+        .attr("y", function(d) { return y(d.y); })
+        .style("opacity", function(d) { return k * d.r > 20 ? 1 : 0; });
+
+      for (var i = 0;i < step_helper.length; i++) {
+         var radius = function(d) { return k * d.r -  i * 20};
+          t.selectAll("." + step_helper[i])
+              .attr("cx", function(d) { return x(d.x); })
+              .attr("cy", function(d) { return y(d.y); })
+              .attr('visibility', function(d) { return d.children ? "hidden" : "visible"; })
+              .attr("r", function(d) { if (radius(d) > 0) { return radius(d); } else { return 0; }});
+      }
+
+
+    if (d3.event) {
+        d3.event.stopPropagation();
+    }
+  }
+
+
+//
+//    // Our score starts at 0
+//    var score = [
+//        {x: max_radius, y: max_radius, percentage: 0 }
+//    ];
+//
+//    // Setup of our arc's
+
+
+//    var total_score = svg.selectAll("text")
+//        .data(score);
+//
+//    total_score.enter().append("text")
+//          .attr("text-anchor", "middle")
+//          .attr("font-size", font_size)
+//          .attr("font-weight", "bold")
+//          .attr("text-shadow", "0px 0px 20px white")
+//          .attr("fill", "#00FF00")
+//      .text(function(d) { return Math.round(d.percentage)+"%"; })
+//
+//    total_score.exit();
+//
+//    function arcTween(b) {
+//      var i = d3.interpolate({value: b.previous}, b);
+//      return function(t) {
+//        return arc(i(t));
+//      };
+//    }
+//
+//  }
+
+
+  </script>
+
+</body>
+</html>
