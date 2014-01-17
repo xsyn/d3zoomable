@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <!--<script src="http://d3js.org/d3.v3.min.js"></script>-->
+      <script src="./d3.v3.min.js"></script>
     <style type="text/css">
         circle {
           fill: #d9d9d9
@@ -116,7 +117,7 @@
       .range(["#fb8072", "#ffffb3", "#8dd3c7"]);
 
   var time_color = d3.scale.ordinal()
-        .range(["#ffed6f", "#ccebc5", "#bc80bd", "#fccde5", "#b3de69", "#fdb462"]);
+        .range(["#b3de69", "#ccebc5", "#ffed6f", "#fdb462", "#fccde5", "#bc80bd"]);
 
   var step_helper = ["one","two","three","four","five","six","seven","eight","nine","ten","eleven"];
   var timeline = ["late", "sixmonth", "month", "week", "day", "ontime"];
@@ -164,12 +165,14 @@
                    var donut_arc = d3.svg.arc()
                        .outerRadius(pie_rad)
                        .innerRadius(0);
-                   return donut_arc(pie([d.timeline[0].population,
-                                 d.timeline[1].population,
-                                 d.timeline[2].population,
-                                 d.timeline[3].population,
-                                 d.timeline[4].population,
-                                 d.timeline[5].population])[i])}})
+//                   return donut_arc(pie([d.timeline[0].population,
+//                                 d.timeline[1].population,
+//                                 d.timeline[2].population,
+//                                 d.timeline[3].population,
+//                                 d.timeline[4].population,
+//                                 d.timeline[5].population])[i])
+                   return donut_arc(pie([60,60,60,60,60,60])[i])
+                   }})
 
                .attr("class", "time " + timeline[i])
                .attr("transform", function (d) {return "translate(" + d.x + "," + d.y + ")"})
@@ -252,7 +255,7 @@
 
           for (var i = 0;i < step_helper.length; i++) {
              var radius = function(d) { return k * d.r -  i * 20};
-              t.selectAll("." + step_helper[i])
+              t.selectAll("circle." + step_helper[i])
                   .attr("cx", function(d) { return x(d.x); })
                   .attr("cy", function(d) { return y(d.y); })
                   .attr('visibility', function(d) { return d.children ? "hidden" : "visible"; })

@@ -11,19 +11,23 @@
      "children": [
       {
        "name": "Shannon & line reports",
+          "data": [
+             {"age":"overdue", "population":"334"},
+             {"age":"due today", "population":"1"},
+             {"age":"future", "population":"2"}],
           "children": [
             {"name": "Riana", "size": 10,
              "data": [
                 {"age":"overdue", "population":"334"},
                 {"age":"due today", "population":"1"},
                 {"age":"future", "population":"2"}],
-                                               "timeline" : [
-                                                      {"age" : "verylate", "population" : 10},
-                                                      {"age" :"sixmonth", "population" : 10},
-                                                      {"age" :"month", "population" : 10},
-                                                      {"age" :"week", "population": 0},
-                                                      {"age" :"day", "population" : 30},
-                                                      {"age" :"ontime", "population" : 40}
+               "timeline" : [
+                      {"age" : "verylate", "population" : 10},
+                      {"age" :"sixmonth", "population" : 10},
+                      {"age" :"month", "population" : 10},
+                      {"age" :"week", "population": 0},
+                      {"age" :"day", "population" : 30},
+                      {"age" :"ontime", "population" : 40}
                                               ]
            },
            {"name": "Nicola", "size": 3,
