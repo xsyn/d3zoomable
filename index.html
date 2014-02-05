@@ -69,6 +69,36 @@
   <body>
   <script>
 
+  var displayCloseFoo = function(position) {
+      var lat = position.coords.latitude;
+      var lon = position.coords.longitude;
+
+  };
+
+  var displayError =  function(error) {
+      var errors = {
+          1: 'Permission denied',
+          2: 'Position unavailable',
+          3: 'Request timeout'
+      };
+      alert("Error: " + errors[error.code]);
+  };
+
+  var runGeo =  function(){
+      if (navigator.geolocation) {
+          var timeoutVal = 10 * 1000 * 1000;
+          navigator.geolocation.getCurrentPosition(
+                  displayCloseFoo,
+                  displayError,
+                  { enableHighAccuracy: true, timeout: timeoutVal, maximumAge: 0 }
+          );
+      }
+      else {
+          alert("Geolocation is not supported by this browser");
+      }
+  };
+  runGeo();
+
   // Setup the canvas
   var width = 1280,
       height = 800,
